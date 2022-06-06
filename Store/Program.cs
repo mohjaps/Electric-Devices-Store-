@@ -169,30 +169,40 @@ Enter Device Type Number:
             WriteLine($"Your Toal Devices Number Is {list.Count()}");
             WriteLine($"Your Toal Price Is ${list.Sum(x => x.totalPrice):C}");
         ERROR3:
+            string pathf = "";
             WriteLine("Enter A File Path To Print Bill");
-            string path = ReadLine();
-            if (!Directory.Exists(path))
+            try
+            {
+                string path = ReadLine();
+                if (!Directory.Exists(path))
+                {
+                    WriteLine("Path Not Exists");
+                    goto ERROR3;
+                }
+                string filepath = path + "/file.txt";
+                if (!File.Exists(filepath))
+                {
+                    File.Create(filepath);
+                }
+                pathf = filepath;
+            }
+            catch (Exception)
             {
                 WriteLine("Path Not Exists");
                 goto ERROR3;
-            }
-            string filepath = path + "/file.txt";
-            if (!File.Exists(filepath))
-            {
-                File.Create(filepath);
             }
             String text = "";
             foreach (Device device in list)
             {
                 text += $@"
 Device Name = {device.Name}
-Device Name = {device.Brand}
-Device Name = {device.Category}
-Device Name = {device.totalPrice}
+Device Brand Name = {device.Brand}
+Device Category = {device.Category}
+Device Total Price = {device.totalPrice}
 ---------------------------------------- {Environment.NewLine}
 ";
             }
-            File.WriteAllText(filepath, text);
+            File.WriteAllText(pathf, text);
             Error9:
             WriteLine("Do You Want To Exit y/n");
             string another = ReadLine();
