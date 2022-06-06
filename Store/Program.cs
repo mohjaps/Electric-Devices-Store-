@@ -91,6 +91,7 @@ Enter Task Number:
 2- Add Device
 3- Delete Device
 4- Update Device
+5- Exit
 ");
             try
             {
@@ -103,6 +104,8 @@ Enter Task Number:
                     DeleteDevice();
                 else if (taskType == 4)
                     UpdateDevice();
+                else if (taskType == 5)
+                    ReadKey();
                 else throw new Exception();
             }
             catch (Exception)
@@ -173,7 +176,7 @@ Enter Device Type Number:
                 WriteLine("Path Not Exists");
                 goto ERROR3;
             }
-            string filepath = path + "/file.csv";
+            string filepath = path + "/file.txt";
             if (!File.Exists(filepath))
             {
                 File.Create(filepath);
@@ -190,7 +193,14 @@ Device Name = {device.totalPrice}
 ";
             }
             File.WriteAllText(filepath, text);
-            Console.ReadKey();
+            Error9:
+            WriteLine("Do You Want To Exit y/n");
+            string another = ReadLine();
+            if (another.ToLower().Trim() == "y")
+                Console.ReadKey();
+            else if (another.ToLower().Trim() == "n")
+                UserView();
+            else goto Error9;
         }
         static public void AddDevice()
         {
